@@ -1,0 +1,107 @@
+34. Find First and Last Position of Element in Sorted Array
+Given an array of integers nums sorted in ascending order, find the starting and ending position of a given target value.
+Your algorithm's runtime complexity must be in the order of O(log n).
+If the target is not found in the array, return [-1, -1].
+Example 1:
+Input: nums = [5,7,7,8,8,10], target = 8
+Output: [3,4]
+•	SOLUTION1
+def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        left = 0
+        right = len(nums)-1
+
+        position = list()
+        #search left side
+        while left<=right:
+            mid = left+(right-left)//2
+
+            if nums[mid] == target:
+                position.append(mid)
+                right= mid-1      #get the left start index
+            elif nums[mid]>target: #target is on the left side
+                right = mid-1     #move right pointer
+            else:                 #target is on the right side
+                left = mid+1
+
+        #search the right side
+        left=0
+        right =len(nums)-1
+
+        while left<=right:
+            mid = left+(right-left)//2
+
+            if nums[mid] == target:
+                position.append(mid)
+                left= mid+1      #get the right end index
+            elif nums[mid]>target: #target is on the left side
+                right = mid-1     #move right pointer
+            else:                 #target is on the right side
+                left = mid+1
+        #list not empty
+        if position:
+            start = min(position)
+            end = max(position)
+            return start,end
+        else:  #empty list
+            return -1,-1
+•	SOLUTION2
+class Solution(object):
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        if nums:            
+            left = 0
+            right = len(nums)-1
+            leftindex = 0
+            rightindex = 0
+        else:                   # empty list
+            return -1,-1
+        
+        #search left side
+        while (left+1) < right:
+            mid = left+(right-left)//2
+
+            if nums[mid] == target:               
+                right= mid      #get the left start index
+            elif nums[mid]>target: #target is on the left side
+                right = mid     #move right pointer
+            else:                 #target is on the right side
+                left = mid
+ 
+        if nums[left] == target:
+            leftindex = left
+        elif nums[right] == target:
+            leftindex =right
+        else:
+            leftindex = -1
+            
+        #search the right side
+        left=0
+        right =len(nums)-1
+
+        while (left+1)<right:
+            mid = left+(right-left)//2
+
+            if nums[mid] == target:
+                left= mid      #get the right end index
+            elif nums[mid]>target: #target is on the left side
+                right = mid     #move right pointer
+            else:                 #target is on the right side
+                left = mid
+    
+        if nums[right] == target:
+            rightindex = right
+        elif nums[left] == target:
+            rightindex =left
+        else:
+            rightindex = -1
+        
+        return leftindex,rightindex
