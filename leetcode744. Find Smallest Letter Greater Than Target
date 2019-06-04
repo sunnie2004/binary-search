@@ -1,0 +1,38 @@
+744. Find Smallest Letter Greater Than Target
+Given a list of sorted characters letters containing only lowercase letters, and given a target letter target, find the smallest element in the list that is larger than the given target.
+Letters also wrap around. For example, if the target is target = 'z' and letters = ['a', 'b'], the answer is 'a'.
+Examples:
+Input:
+letters = ["c", "f", "j"]
+target = "a"
+Output: "c"
+class Solution(object):
+    def nextGreatestLetter(self, letters, target):
+        """
+        :type letters: List[str]
+        :type target: str
+        :rtype: str
+        """
+        if letters:
+            left = 0
+            length = len(letters)
+            right = length-1
+        else:
+            return -1
+        
+        if letters[right] <= target:  #bigger or equal to the last one, wrap around
+            return letters[0]
+        
+        while (left+1) < right:
+            mid = left +(right-left)//2
+            if letters[mid] > target:
+                right =  mid
+            else:                        #duplicate situation:not return mid+1
+                left = mid
+            
+        if letters[left] > target:
+            return letters[left]
+        elif letters[left] <= target:
+            return letters[right]
+        elif letters[right] <= target:
+            return letters[right+1]
