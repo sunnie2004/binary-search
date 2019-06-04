@@ -1,0 +1,95 @@
+Leetcode 35 Search Insert Position
+Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+You may assume no duplicates in the array.
+Example 1:
+Input: [1,3,5,6], 5
+Output: 2
+
+•	SOLUTION1
+class Solution(object):
+    def searchInsert(self,nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        left = 0
+        length = len(nums)
+        right = length-1
+        
+        if target < nums[0]: #smaller than first one
+            return 0
+        if target > nums[length-1]:  #bigger than last one
+            return length
+        
+        while nums[left] <= nums[right]:
+            mid = left + (right-left)//2   
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] > target:
+                right = mid-1
+            else:
+                left = mid+1
+                        
+        return left 
+•	SOLUTION2
+class Solution(object):
+    def searchInsert(self,nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        left = 0
+        length = len(nums)
+        right = length-1
+        
+        if target < nums[0]: #smaller than first one
+            return 0
+        if target > nums[length-1]:  #bigger than last one
+            return length
+        
+        while  left <= right:
+            mid = left + (right-left)//2   
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] > target:
+                right = mid
+                if target > nums[mid-1]:
+                    return mid
+            else:
+                left = mid+1
+                if target < nums[mid+1]:
+                    return mid+1  
+•	SOLUTION3
+class Solution(object):
+    def searchInsert(self,nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        left = 0
+        length = len(nums)
+        right = length-1
+        
+        if target <= nums[0]: #smaller than first one
+            return 0
+        if target > nums[length-1]:  #bigger than last one
+            return length
+        
+        while (left+1) < right:
+            mid = left + (right-left)//2   
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] > target:
+                right = mid
+            else:
+                left = mid
+
+        if nums[left] >= target:
+            return left
+        elif nums[left] < target and target <= nums[right]:
+            return left+1
+        else:
+            return right+1
